@@ -368,3 +368,7 @@ bool cocoadock_is_app_to_dock(const char *path) {
 void cocoadock_add_app_to_dock(const char *path) {
     addAppToDock(path);
 }
+
+void cocoadock_remove_app_from_dock(const char *path) {
+    removeAppFromDock(path);
+}
