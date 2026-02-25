@@ -3,7 +3,7 @@ lib Native
   fun cocoadock_is_app_to_dock(LibC::Char*) : Bool
   fun cocoadock_add_app_to_dock(LibC::Char*) : Void
   fun cocoadock_remove_app_from_dock(LibC::Char*) : Void
-  fun cocoadock_remove_others_in_dock(Void) : Void
+  fun cocoadock_remove_others_in_dock : Void
 end
 
 module CocoaDock
