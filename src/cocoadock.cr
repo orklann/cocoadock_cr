@@ -4,6 +4,7 @@ lib Native
   fun cocoadock_add_app_to_dock(LibC::Char*) : Void
   fun cocoadock_remove_app_from_dock(LibC::Char*) : Void
   fun cocoadock_remove_others_in_dock : Void
+  fun cocoadock_remove_all_apps_in_dock : Void
 end
 
 module CocoaDock
@@ -22,6 +23,10 @@ module CocoaDock
 
     def remove_others
       Native.cocoadock_remove_others_in_dock()
+    end
+
+    def remove_all
+      Native.cocoadock_remove_all_apps_in_dock
     end
   end
 end

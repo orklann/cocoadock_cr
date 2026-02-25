@@ -376,3 +376,7 @@ void cocoadock_remove_app_from_dock(const char *path) {
 void cocoadock_remove_others_in_dock() {
     removeOthersInDock();
 }
+
+void cocoadock_remove_all_apps_in_dock() {
+    RemoveAllAppsInDock();
+}
