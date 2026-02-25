@@ -364,3 +364,7 @@ bool cocoadock_is_app_to_dock(const char *path) {
     }
     return false;
 }
+
+void cocoadock_add_app_to_dock(const char *path) {
+    addAppToDock(path);
+}
