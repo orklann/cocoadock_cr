@@ -5,6 +5,7 @@ lib Native
   fun cocoadock_remove_app_from_dock(LibC::Char*) : Void
   fun cocoadock_remove_others_in_dock : Void
   fun cocoadock_remove_all_apps_in_dock : Void
+  fun cocoadock_get_apps_from_dock : LibC::Char*
 end
 
 module CocoaDock
@@ -27,6 +28,17 @@ module CocoaDock
 
     def remove_all
       Native.cocoadock_remove_all_apps_in_dock
+    end
+
+    def get_apps
+      ptr = Native.get_apps_from_dock
+      return [] if ptr.null? || ptr.value == 0
+
+      result = String.new(ptr)
+      # Important: if you use strdup in C, you should ideally free the memory
+      LibC.free(ptr)
+
+      result.split('\n').reject(&.empty?)
     end
   end
 end
