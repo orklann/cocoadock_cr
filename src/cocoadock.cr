@@ -31,7 +31,7 @@ module CocoaDock
     end
 
     def get_apps : Array(String)
-      ptr = Native.get_apps_from_dock
+      ptr = Native.cocoadock_get_apps_from_dock
       return [] of String if ptr.null? || ptr.value == 0
 
       result = String.new(ptr)
