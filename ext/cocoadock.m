@@ -393,35 +393,27 @@ const char* cocoadock_get_apps_from_dock(void) {
         }
 
         NSArray *apps = (__bridge NSArray *)persistentApps;
-        NSMutableArray *bundleIDs = [NSMutableArray array];
+        NSMutableArray *paths = [NSMutableArray array];
 
         for (NSDictionary *item in apps) {
             NSDictionary *tileData = item[@"tile-data"];
             if (!tileData) continue;
 
-            NSString *bundleID = tileData[@"bundle-identifier"];
+            NSDictionary *fileData = tileData[@"file-data"];
+            NSString *urlString = fileData[@"_CFURLString"];
             
-            // If bundle-identifier is missing, try to derive it from the path
-            if (!bundleID) {
-                NSDictionary *fileData = tileData[@"file-data"];
-                NSString *urlString = fileData[@"_CFURLString"];
-                if (urlString) {
-                    NSURL *url = [NSURL URLWithString:urlString];
-                    NSBundle *bundle = [NSBundle bundleWithURL:url];
-                    bundleID = bundle.bundleIdentifier;
+            if (urlString) {
+                // Convert URL string (file:///...) to a standard POSIX path (/Applications/...)
+                NSURL *url = [NSURL URLWithString:urlString];
+                if (url && url.path) {
+                    [paths addObject:url.path];
                 }
-            }
-
-            if (bundleID) {
-                [bundleIDs addObject:bundleID];
             }
         }
 
-        NSString *resultString = [bundleIDs componentsJoinedByString:@"\n"];
+        NSString *resultString = [paths componentsJoinedByString:@"\n"];
         CFRelease(persistentApps);
 
-        // We use strdup because the Crystal side needs a stable pointer 
-        // that it can potentially free or copy before it goes out of scope.
         return strdup([resultString UTF8String]);
     }
 }
