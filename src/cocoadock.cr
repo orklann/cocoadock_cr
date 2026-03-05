@@ -30,9 +30,9 @@ module CocoaDock
       Native.cocoadock_remove_all_apps_in_dock
     end
 
-    def get_apps
+    def get_apps : Array(String)
       ptr = Native.get_apps_from_dock
-      return [] if ptr.null? || ptr.value == 0
+      return [] of String if ptr.null? || ptr.value == 0
 
       result = String.new(ptr)
       # Important: if you use strdup in C, you should ideally free the memory
